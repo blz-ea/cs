@@ -1,0 +1,21 @@
+const singleNumber = (nums: number[]): number => {
+    if (nums.length === 1) return nums[0];
+
+    const seen = new Map();
+
+    for (const num of nums) {
+        if (seen.has(num)) {
+            seen.set(num, seen.get(num) + 1);
+        } else {
+            seen.set(num, 1);
+        }
+    }
+
+    for (const num of Array.from(seen.keys())) {
+        if (seen.get(num) === 1) {
+            return num;
+        }
+    }
+};
+
+export default singleNumber;

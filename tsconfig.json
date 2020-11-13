@@ -1,0 +1,16 @@
+{
+  "target": "es6",
+  "compilerOptions": {
+    "target": "ES2016",
+    "baseUrl": ".",
+        "paths": {
+            "@ds/*": ["data_structures/*"],
+            "@utils": ["helpers/utils"]
+        },
+    "lib": [
+      "dom",
+      "es6",
+      "es7"
+    ]
+  }
+}
