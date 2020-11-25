@@ -17,8 +17,11 @@ export default function binaryTreeCreateBFS<T>(array: T[]): BinaryTreeNode<T> {
     treeNodeQueue.enqueue(root);
 
     while (!valueQueue.isEmpty) {
-        const leftLeaf = valueQueue.isEmpty ? null : new BinaryTreeNode(valueQueue.dequeue());
-        const rightLeaf = valueQueue.isEmpty ? null : new BinaryTreeNode(valueQueue.dequeue());
+        const leftVal = valueQueue.dequeue();
+        const rightVal = valueQueue.dequeue();
+
+        const leftLeaf = leftVal ? new BinaryTreeNode(leftVal) : null;
+        const rightLeaf = rightVal ? new BinaryTreeNode(rightVal) : null;
 
         const current = treeNodeQueue.dequeue();
         if (leftLeaf && leftLeaf.val != null) {
@@ -26,7 +29,7 @@ export default function binaryTreeCreateBFS<T>(array: T[]): BinaryTreeNode<T> {
             treeNodeQueue.enqueue(leftLeaf);
         }
 
-        if (rightLeaf != null && leftLeaf.val != null) {
+        if (rightLeaf && rightLeaf.val != null) {
             current.right = rightLeaf;
             treeNodeQueue.enqueue(rightLeaf);
         }

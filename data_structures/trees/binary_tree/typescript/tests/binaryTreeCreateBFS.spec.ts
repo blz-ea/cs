@@ -9,7 +9,6 @@ describe('testing Binary Tree - Create Binary Tree from Bredth First Search Trav
      *   2    3
      * 4  5 6
      */
-
     it('should create Binary Tree from array', () => {
         const root = binaryTreeCreateBFS<number>([1, 2, 3, 4, 5, 6]);
 
@@ -27,6 +26,7 @@ describe('testing Binary Tree - Create Binary Tree from Bredth First Search Trav
         expect(root.right.left.val).toBe(6);
         expect(root.right.right).toBeNull();
     });
+
     /**
      * Should create Binary Tree that look like this:
      *      3
@@ -45,6 +45,23 @@ describe('testing Binary Tree - Create Binary Tree from Bredth First Search Trav
         expect(root.right.right.val).toBe(7);
     });
 
+    /**
+     * Should create Binary Tree that look like this:
+     *        1
+     *     2    2
+     *      3     3
+     */
+    it('should create Binary Tree from array - with null values 2', () => {
+        const testData = [1, 2, 2, null, 3, null, 3];
+        const tree = binaryTreeCreateBFS(testData);
+        expect(tree.val).toBe(1);
+        expect(tree.left.val).toBe(2);
+        expect(tree.left.left).toBe(null);
+        expect(tree.left.right.val).toBe(3);
+        expect(tree.right.val).toBe(2);
+        expect(tree.right.left).toBe(null);
+        expect(tree.right.right.val).toBe(3);
+    });
     /**
      * Should create Binary Tree that look like this:
      *        1

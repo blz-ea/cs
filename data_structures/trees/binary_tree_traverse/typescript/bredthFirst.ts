@@ -14,7 +14,6 @@ import Queue from '@ds/queue/typescript/Queue';
  */
 
 export default function BredthFirstTraverse<T>(root: BaseBinaryTreeNodeInterface<T>): T[] {
-    let currentNode;
     const result: T[] = [];
 
     if (!root) {
@@ -32,18 +31,16 @@ export default function BredthFirstTraverse<T>(root: BaseBinaryTreeNodeInterface
             return result;
         }
 
-        currentNode = queueNode;
-
-        if (currentNode.val) {
-            result.push(currentNode.val);
+        if (queueNode.val) {
+            result.push(queueNode.val);
         }
 
-        if (currentNode.left) {
-            queue.enqueue(currentNode.left);
+        if (queueNode.left) {
+            queue.enqueue(queueNode.left);
         }
 
-        if (currentNode.right) {
-            queue.enqueue(currentNode.right);
+        if (queueNode.right) {
+            queue.enqueue(queueNode.right);
         }
     }
 

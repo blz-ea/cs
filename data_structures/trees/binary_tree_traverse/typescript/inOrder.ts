@@ -1,4 +1,5 @@
 import { BaseBinaryTreeNodeInterface } from '@ds/trees/types';
+import Stack from '@ds/stack/typescript/Stack';
 
 /**
  * Depth First Traversal - In order
@@ -29,6 +30,29 @@ export default function DepthFirstTraversalInOrder<T>(root: BaseBinaryTreeNodeIn
 
     if (root.right) {
         result = result.concat(DepthFirstTraversalInOrder(root.right));
+    }
+
+    return result;
+}
+
+export function DepthFirstTraversalInOrderStack<T>(root: BaseBinaryTreeNodeInterface<T>): T[] {
+    const result: T[] = [];
+
+    if (!root) {
+        return result;
+    }
+
+    const stack = new Stack<BaseBinaryTreeNodeInterface<T>>();
+
+    while (root || !stack.isEmpty) {
+        while (root) {
+            stack.push(root);
+            root = root.left;
+        }
+
+        root = stack.pop();
+        result.push(root.val);
+        root = root.right;
     }
 
     return result;
