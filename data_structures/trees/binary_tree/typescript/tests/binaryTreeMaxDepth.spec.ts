@@ -1,14 +1,35 @@
 import binaryTreeCreateBFS from '../binaryTreeCreateBFS';
-import binaryTreeMaxDepth, { binaryTreeMaxDepthIterative } from '../binaryTreeMaxDepth';
+import binaryTreeMaxDepthRecursive, {
+    binaryTreeMaxDepthIterative,
+    binaryTreeMaxDepthIterativeBFS,
+} from '../binaryTreeMaxDepth';
+
+const testRunData = [
+    // input | expectedResult
+    [[1, null, 2], 2],
+    [[], 0],
+    [[3, 9, 20, null, null, 15, 7], 3],
+];
 
 describe('testing Binary Tree - Max Depth', () => {
-    it('should return max depth', () => {
-        const tree = binaryTreeCreateBFS<number | null>([3, 9, 20, null, null, 15, 7]);
-        expect(binaryTreeMaxDepth(tree)).toBe(3);
-    });
+    test.each(testRunData)(
+        'recursive - given binary tree %p should return %i maximum depth',
+        (input: Array<number & null>, expectedResult: number) => {
+            expect(binaryTreeMaxDepthRecursive(binaryTreeCreateBFS(input))).toBe(expectedResult);
+        },
+    );
 
-    it('should return max depth - iterative solution', () => {
-        const tree = binaryTreeCreateBFS<number | null>([3, 9, 20, null, null, 15, 7]);
-        expect(binaryTreeMaxDepthIterative(tree)).toBe(3);
-    });
+    test.each(testRunData)(
+        'iterative - given binary tree %p return %i maximum depth',
+        (input: Array<number & null>, expectedResult: number) => {
+            expect(binaryTreeMaxDepthIterative(binaryTreeCreateBFS(input))).toBe(expectedResult);
+        },
+    );
+
+    test.each(testRunData)(
+        'iterative bfs - given binary tree %p return %i maximum depth',
+        (input: Array<number | null>, expectedResult: number) => {
+            expect(binaryTreeMaxDepthIterativeBFS(binaryTreeCreateBFS(input))).toBe(expectedResult);
+        },
+    );
 });

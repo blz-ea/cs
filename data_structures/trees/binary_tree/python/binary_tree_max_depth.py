@@ -1,4 +1,6 @@
 from typing import TypeVar
+
+from data_structures.queue.pyhton.queue import Queue
 from data_structures.trees.binary_tree.python.binary_tree_node import BinaryTreeNode
 from data_structures.stack.pyhton.stack import Stack
 
@@ -12,7 +14,36 @@ def binary_tree_max_depth(root: BinaryTreeNode) -> int:
     if root is None:
         return 0
 
-    return max(binary_tree_max_depth(root.left) + 1, binary_tree_max_depth(root.right) + 1)
+    return max(binary_tree_max_depth(root.left), binary_tree_max_depth(root.right)) + 1
+
+
+def binary_tree_max_depth_iterative_bfs(root: BinaryTreeNode[T]) -> int:
+    if not root:
+        return 0
+
+    queue: Queue[BinaryTreeNode[T]] = Queue()
+    queue.enqueue(root)
+    level = 1
+    depth = 0
+
+    while not queue.is_empty:
+        node_count = 0
+
+        for i in range(level):
+            curr_node: BinaryTreeNode[T] = queue.dequeue()
+
+            if curr_node.left:
+                node_count += 1
+                queue.enqueue(curr_node.left)
+
+            if curr_node.right:
+                node_count += 1
+                queue.enqueue(curr_node.right)
+
+        level = node_count
+        depth += 1
+
+    return depth
 
 
 def binary_tree_max_depth_iterative(root: BinaryTreeNode) -> int:
@@ -35,7 +66,7 @@ def binary_tree_max_depth_iterative(root: BinaryTreeNode) -> int:
 
         if node.right:
             stack.push(node.right)
-            depth.push(current_depth  + 1)
+            depth.push(current_depth + 1)
 
         if node.left:
             stack.push(node.left)

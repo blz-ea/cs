@@ -1,4 +1,4 @@
-from typing import Union, TypeVar, Generic
+from typing import Union, TypeVar, Generic, List
 from data_structures.trees.binary_tree_traverse.python.traverse import traverse_in_order, traverse_pre_order, \
     traverse_post_order, traverse_bfs
 
@@ -20,14 +20,14 @@ class BinaryTreeNode(Generic[T]):
     def __repr__(self):
         return f"BinaryTreeNode({self.val})"
 
-    def traverse_in_order(self):
+    def traverse_in_order(self) -> List[T]:
         return traverse_in_order(self)
 
-    def traverse_pre_order(self):
+    def traverse_pre_order(self) -> List[T]:
         return traverse_pre_order(self)
 
-    def traverse_post_order(self):
+    def traverse_post_order(self) -> List[T]:
         return traverse_post_order(self)
 
-    def traverse_depth(self):
+    def traverse_depth(self) -> List[T]:
         return traverse_bfs(self)
