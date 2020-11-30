@@ -23,7 +23,7 @@ def helper(root: BinaryTreeNode) -> int:
 
 
 def is_balanced_iterative(root: BinaryTreeNode) -> bool:
-    stack , node, last, depths = Stack(), root, None, {}
+    stack, node, last, depths = Stack(), root, None, {}
 
     while not stack.is_empty or node:
         if node:

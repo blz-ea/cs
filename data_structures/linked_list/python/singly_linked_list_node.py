@@ -6,6 +6,7 @@ T = TypeVar("T")
 class ListNode(Generic[T]):
     key: int
     next: Union[None, 'ListNode'] = None
+    val: T
 
     def __init__(self, val: T = None, key: int = None):
         self.val = val

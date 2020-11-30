@@ -31,9 +31,7 @@ export default function BredthFirstTraverse<T>(root: BaseBinaryTreeNodeInterface
             return result;
         }
 
-        if (queueNode.val) {
-            result.push(queueNode.val);
-        }
+        result.push(queueNode.val);
 
         if (queueNode.left) {
             queue.enqueue(queueNode.left);

@@ -109,7 +109,7 @@ class SinglyLinkedList(Generic[T]):
         self.length += 1
         return self
 
-    def find(self, key: int):
+    def find(self, key: int) -> Union[T, None]:
         if self.is_empty:
             return None
 

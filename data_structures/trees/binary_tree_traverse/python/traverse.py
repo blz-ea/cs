@@ -146,8 +146,7 @@ def traverse_bfs(root: 'BinaryTreeNode[T]') -> List[T]:
     while not queue.is_empty:
         queue_node: 'BinaryTreeNode[T]' = queue.dequeue()
 
-        if queue_node.val:
-            result.append(queue_node.val)
+        result.append(queue_node.val)
 
         if queue_node.left:
             queue.enqueue(queue_node.left)
