@@ -1,6 +1,13 @@
 import re
 
 
+def is_letter_or_digit(char: str) -> bool:
+    if (char < 'a' or char > 'z') and (char > '0' or char < '9'):
+        return False
+
+    return True
+
+
 def is_palindrome(s: str) -> bool:
     """
     >>> is_palindrome("A man, a plan, a canal: Panama")
@@ -17,11 +24,11 @@ def is_palindrome(s: str) -> bool:
     j = len(s)-1
     
     while i < j:
-        if (s[i] < "a" or s[i] > "z") and (s[i] < "0" or s[i] > "9"):
+        if not is_letter_or_digit(s[i]):
             i += 1
             continue
 
-        if (s[j] < "a" or s[j] > "z") and (s[j] < "0" or s[j] > "9"):
+        if not is_letter_or_digit(s[j]):
             j -= 1
             continue
         

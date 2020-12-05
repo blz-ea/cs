@@ -24,7 +24,27 @@ def single_number(nums: List[int]) -> int:
     for num in seen.keys():
         if seen[num] == 1:
             return num
-        
+
+
+def single_number_xor(nums: List[int]) -> int:
+    """
+    >>> single_number_xor([2,2,1])
+    1
+    >>> single_number_xor([4,1,2,1,2])
+    4
+    >>> single_number_xor([5])
+    5
+    """
+    if len(nums) == 1:
+        return nums[0]
+
+    result = 0
+
+    for i in range(len(nums)):
+        result ^= nums[i]
+
+    return result
+
 
 if __name__ == "__main__":
     import doctest

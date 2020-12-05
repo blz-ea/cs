@@ -1,3 +1,11 @@
+const isLetterOrDigit = (char: string): boolean => {
+    if ((char < 'a' || char > 'z') && (char < '0' || char > '9')) {
+        return false;
+    }
+
+    return true;
+};
+
 const isPalindrome = (str: string): boolean => {
     if (str.length === 0) {
         return false;
@@ -8,12 +16,12 @@ const isPalindrome = (str: string): boolean => {
     let j = str.length - 1;
 
     while (i < j) {
-        if ((s[i] < 'a' || s[i] > 'z') && (s[i] < '0' || s[i] > '9')) {
+        if (!isLetterOrDigit(s[i])) {
             i++;
             continue;
         }
 
-        if ((s[j] < 'a' || s[j] > 'z') && (s[j] < '0' || s[j] > '9')) {
+        if (!isLetterOrDigit(s[j])) {
             j--;
             continue;
         }
