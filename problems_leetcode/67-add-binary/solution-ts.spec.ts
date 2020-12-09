@@ -6,6 +6,7 @@ test('Testing `addBinary`', () => {
 });
 
 test('Testing `addBinary2`', () => {
+    expect(addBinary2('111', '010')).toBe('1001');
     expect(addBinary2('11', '01')).toBe('100');
     expect(addBinary2('1010', '1011')).toBe('10101');
 });
