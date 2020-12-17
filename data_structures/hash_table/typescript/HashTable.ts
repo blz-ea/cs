@@ -1,42 +1,75 @@
 import DoublyLinkedList from '@ds/linked_list/typescript/DoublyLinkedList';
 
 const encoding = new TextEncoder();
-type KeyType = string | number;
+export type KeyType = string | number;
 
-export default class HashTable<T = KeyType, K = any> {
-    table: (DoublyLinkedList<K> | null)[];
-    size: number;
+/**
+ * Table
+ * {
+ *   'a' => { value: 97: order: 0 }
+ * }
+ *
+ * KeysArray = [
+ *    0 = 'a'
+ * ]
+ *
+ * KeysIndex = 0
+ *
+ */
+
+type HashTableRecord<T> = { value: T; order: number };
+
+export default class HashTable<T, K = unknown> {
+    size = 0;
+    loadFactor: number;
+    table: (DoublyLinkedList<HashTableRecord<K>> | null)[];
+    initialCapacity: number;
     uniqueIdPropName = '425123g2e';
     objectIdCounter = -1;
+    keysArray: T[] = [];
+    keysIndex = 0;
 
-    constructor(size = 64) {
-        this.table = new Array(size).fill(null);
-        this.size = size;
+    constructor(initialCapacity = 57, loadFactor = 0.75) {
+        this.loadFactor = loadFactor;
+        this.initialCapacity = initialCapacity;
+        this.reset();
     }
 
-    put(key: KeyType, value: K): this {
+    reset(buckets = new Array(this.initialCapacity), size = 0, keysArray = [], keysIndex = 0): void {
+        this.table = buckets;
+        this.size = size;
+        this.keysArray = keysArray;
+        this.keysIndex = keysIndex;
+    }
+
+    put(key: T, value: K): this {
         const hash = this.hash(key);
         const bucket = this.table[hash];
 
         if (!bucket) {
-            this.table[hash] = new DoublyLinkedList<K>().push(value, key);
+            this.table[hash] = new DoublyLinkedList<HashTableRecord<K>>().push({ value, order: this.keysIndex }, hash);
+            this.keysArray[this.keysIndex] = key;
+            this.keysIndex += 1;
+            this.size++;
         } else {
             let current = bucket.head;
             while (current) {
-                if (current.key == key) {
-                    current.val = value; // update
+                if (current.key == hash) {
+                    current.val.value = value; // update
                     return this;
                 } else {
                     current = current.next;
                 }
             }
-            bucket.push(value, key);
+            // accommodate collision
+            bucket.push({ value, order: this.keysIndex }, hash);
+            this.size++;
         }
 
         return this;
     }
 
-    get(key: KeyType): null | K {
+    get(key: T): null | K {
         const hash = this.hash(key);
         const bucket = this.table[hash];
 
@@ -44,32 +77,40 @@ export default class HashTable<T = KeyType, K = any> {
             return null;
         }
 
-        const node = bucket.find(key);
+        const node = bucket.find(hash);
         if (!node) {
             return null;
         }
 
-        return node.val;
+        return node.val.value;
     }
 
-    remove(key: KeyType): null | K {
+    has(key: T): boolean {
+        const node = this.get(key);
+        return !!node;
+    }
+
+    remove(key: T): boolean {
         const hash = this.hash(key);
         const bucket = this.table[hash];
 
         if (!bucket) {
-            return null;
+            return false;
         }
 
-        const node = bucket.find(key);
+        const node = bucket.find(hash);
         if (!node) {
-            return null;
+            return false;
         }
 
         bucket.delete(node);
-        return node.val;
+        delete this.keysArray[node.val.order];
+        this.size--;
+
+        return true;
     }
 
-    hash(key: KeyType): number {
+    hash(key: T): number {
         let toHash;
 
         if (typeof key === 'object') {
@@ -85,10 +126,10 @@ export default class HashTable<T = KeyType, K = any> {
             hash *= 16777619;
         }
 
-        return (hash >>> 0) % this.size;
+        return (hash >>> 0) % this.initialCapacity;
     }
 
-    fromArray(keyValues: Array<[KeyType, K]>): this {
+    fromArray(keyValues: Array<[T, K]>): this {
         if (!keyValues || keyValues.length == 0) {
             return this;
         }
@@ -132,5 +173,24 @@ export default class HashTable<T = KeyType, K = any> {
         });
 
         return uniqueId;
+    }
+
+    rehash(): void {
+        throw new Error('Not implemented');
+    }
+
+    *keys(): Iterable<T> {
+        for (let i = 0; i < this.keysArray.length; i++) {
+            const key = this.keysArray[i];
+            if (key !== undefined) {
+                yield key;
+            }
+        }
+    }
+
+    *values(): Iterable<K> {
+        for (const key of this.keys()) {
+            yield this.get(key);
+        }
     }
 }
