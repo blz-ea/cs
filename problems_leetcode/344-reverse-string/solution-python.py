@@ -27,6 +27,20 @@ def reverse_string(s: List[str]) -> None:
 
 def reverse_string_xor(s: str) -> str:
     """
+    Explanation:
+
+        x1 100
+        x2 111
+    new x1 011
+
+        x2 111
+        x1 011
+    new x2 100 <- equals to original input of x1
+
+        x1 011
+        x2 100
+    new x1 111 <- equals to original input of x2
+
     >>> s = "hello"
     >>> s = reverse_string_xor(s)
     >>> print(s)
@@ -36,9 +50,9 @@ def reverse_string_xor(s: str) -> str:
     s_bytes = bytearray(s, 'utf8')
     s_len = len(s_bytes)
 
-    for c in range(len(s_bytes) // 2):
-        end = s_len - c - 1
-        start = c
+    for i in range(s_len // 2):
+        start = i
+        end = s_len - i - 1
 
         s_bytes[end] ^= s_bytes[start]
         s_bytes[start] ^= s_bytes[end]

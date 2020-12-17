@@ -20,14 +20,16 @@ const removeDuplicates = (nums: number[]): number => {
 
 const removeDuplicatesNoBuffer = (nums: number[]): number => {
     const len = nums.length;
-    if (len == 0 || len < 2) {
-        return len;
+
+    if (len === 0 || len < 2) {
+        return nums.length;
     }
 
     let tail = 1;
 
     for (let i = 0; i < len; i++) {
         let j = 0;
+
         while (j < tail) {
             if (nums[i] === nums[j]) {
                 break;
@@ -35,13 +37,14 @@ const removeDuplicatesNoBuffer = (nums: number[]): number => {
             j++;
         }
 
-        if (tail === j) {
+        if (j === tail) {
             nums[tail] = nums[i];
             tail++;
         }
     }
 
     nums.length = tail;
+
     return tail;
 };
 
