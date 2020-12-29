@@ -42,10 +42,10 @@ export function binaryTreeCreateInOrderPreOrderSimple<T>(preOrder: T[], inOrder:
 
 export function binaryTreeCreateInOrderPreOrder<T>(preOrder: T[], inOrder: T[]): BinaryTreeNode<T> {
     const queue = new Queue<T>().fromArray(preOrder);
-    const hashTable = new HashTable<number>();
+    const hashTable = new HashTable<T, number>();
 
     for (let i = 0; i < inOrder.length; i++) {
-        hashTable.put(String(inOrder[i]), i);
+        hashTable.put(inOrder[i], i);
     }
 
     const helper = (start: number, end: number): BinaryTreeNode<T> => {
@@ -54,7 +54,7 @@ export function binaryTreeCreateInOrderPreOrder<T>(preOrder: T[], inOrder: T[]):
         }
 
         const node = queue.dequeue();
-        const rootIndex = hashTable.get(String(node));
+        const rootIndex = hashTable.get(node);
 
         const root = new BinaryTreeNode(inOrder[rootIndex]);
         root.left = helper(start, rootIndex - 1);
@@ -86,8 +86,9 @@ export function binaryTreeCreateInOrderPreOrderIterative<T>(preOrder: T[], inOrd
     }
 
     const hashTable = new HashTable();
+
     for (let i = 0; i < inOrder.length; i++) {
-        hashTable.put(String(inOrder[i]), i);
+        hashTable.put(inOrder[i], i);
     }
 
     const stack = new Stack<BinaryTreeNode<T>>();
@@ -98,11 +99,11 @@ export function binaryTreeCreateInOrderPreOrderIterative<T>(preOrder: T[], inOrd
     for (let i = 1; i < preOrder.length; i++) {
         const node = new BinaryTreeNode(preOrder[i]);
 
-        if (hashTable.get(String(node.val)) < hashTable.get(String(stack.peek().val))) {
+        if (hashTable.get(node.val) < hashTable.get(stack.peek().val)) {
             stack.peek().left = node;
         } else {
             let parent = new BinaryTreeNode(null);
-            while (!stack.isEmpty && hashTable.get(String(node.val)) > hashTable.get(String(stack.peek().val))) {
+            while (!stack.isEmpty && hashTable.get(node.val) > hashTable.get(stack.peek().val)) {
                 parent = stack.pop();
             }
             parent.right = node;
